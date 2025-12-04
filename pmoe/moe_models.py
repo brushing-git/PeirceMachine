@@ -46,7 +46,7 @@ class NoisyTopKRouter(nn.Module):
         noise = torch.randn_like(logits) * F.softplus(noise_logits)
         noisy_logits = logits + noise
 
-        top_k_logits, indices = noise_logits.topk(self.top_k, dim=-1)
+        top_k_logits, indices = noisy_logits.topk(self.top_k, dim=-1)
         zeros = torch.full_like(noisy_logits, float('-inf'))
 
         sparse_logits = zeros.scatter(-1, indices, top_k_logits)
